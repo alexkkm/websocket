@@ -1,5 +1,6 @@
+/*
 //使用 WebSocket 的網址向 Server 開啟連結
-let ws = new WebSocket('ws://localhost:3000')
+let ws = new WebSocket('ws://localhost:8000')
 
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行
 ws.onopen = () => {
@@ -13,7 +14,13 @@ ws.onclose = () => {
 
 //接收 Server 發送的訊息
 ws.onmessage = event => {
-    console.log(event)
+    console.log("Received" + event)
     document.getElementById('time').innerHTML = event.data
 }
 
+ws.onmessage = function (e) {
+    console.log("ClientSide: TCP Received: '" + e.data + "'");
+    document.getElementById('time').innerHTML = e.data
+}
+
+*/
