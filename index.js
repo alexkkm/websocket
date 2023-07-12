@@ -24,3 +24,14 @@ ws.onmessage = function (e) {
 }
 
 */
+
+///
+let ws = new WebSocket('ws://localhost:3080')
+ws.onopen = function () {
+    ws.send("Hi, this is http client from index");
+}
+
+
+function sendMessage() {
+    ws.send("message title", "hi")
+}

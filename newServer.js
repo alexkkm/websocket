@@ -6,6 +6,7 @@ const express = require('express');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 const fs = require("fs");
+const tcpServer = require("./tcpServer.js")
 
 // file import
 //const configFile = "./setting/config.json";
@@ -21,11 +22,30 @@ app.use(jsonParser);
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.set('view engine', 'html');
 
+// routing: perfromed by sending response when client requiring 
+app.get('/', (req, res) => {
+    console.log("send file: index.html to client")
+    return res.status(200).sendFile(`${__dirname}/index.html`);
+});
 
-// create http server with port 8000
-const httpPort = 8000;
+app.get('/main', jsonParser, (req, res) => {
+    console.log('main, also send file: index.html to client');
+    res.sendFile(__dirname + '/index.html');
+});
+
+
+
+// create http server with port 8080
+const httpPort = 8080;
 var httpServer = http.createServer(app);
-let currentWall = "";
+
+// app
+app.on('connect', (socket) => {
+    console.log('a web client connected');
+    socket.on('disconnect', () => {
+        console.log('web client disconnected');
+    });
+});
 
 // httpServer, or called web server
 httpServer.listen(httpPort, () => {
@@ -35,34 +55,13 @@ httpServer.listen(httpPort, () => {
     });
 }); //open the httpServer using localhost:8080/
 
-/*
-// http server
-app.on('connect', (socket) => {
-    console.log('a web client connected');
-    socket.on('disconnect', () => {
-        console.log('web client disconnected');
-    });
-});
-*/
-
-// routing: perfromed by sending response when client requiring 
-app.get('/', (req, res) => {
-    console.log("send file: index.html to client")
-    return res.status(200).sendFile(`${__dirname}/index.html`);
-    //res.writeHead(200, {'content-type': 'text/html'});
-});
-
-app.get('/main', jsonParser, (req, res) => {
-    console.log('main, also send file: index.html to client');
-    res.sendFile(__dirname + '/index.html');
-});
-
-///
 
 
-// Creating a new web socket server with port 3000
+
+
+// Creating a new web socket server with PORT 3080
 const wsServer = new WebSocket.Server({
-    port: 3000
+    port: 3080
 });
 
 wsServer.on('connection', function (socket) {
@@ -94,11 +93,3 @@ wsServer.on('connection', function (socket) {
 });
 
 
-///
-const serverAddress = "ws://localhost:3000/";
-const ws = new WebSocket(serverAddress);
-
-ws.onopen = () => {
-    console.log('web socket connected')
-    ws.send("message", "Hi")
-}
