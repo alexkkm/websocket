@@ -50,5 +50,5 @@ ws.onmessage = function (rawdata) {
 }
 */
 ws.addEventListener("message", (event) => {
-    console.log("Client TCP: TCP Received: " + event.data);
+    console.log("Client TCP: Received message from Websocket Server: " + event.data);
 })
