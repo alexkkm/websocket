@@ -61,7 +61,7 @@ httpServer.listen(httpPort, () => {
 
 // Creating a new web socket server with PORT 3080
 const wsServer = new WebSocket.Server({
-    port: 3080
+    port: 3000
 });
 
 wsServer.on('connection', function (socket) {
