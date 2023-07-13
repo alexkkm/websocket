@@ -81,20 +81,17 @@ wsServer.on('connection', function (socket) {
     // Encode the JSON into sendable string and send it to client
     socket.send(JSON.stringify({ title: "message", info: "Welcome" }))
 
-    // Attach some behavior to the incoming socket
-    socket.on('message', function (msg) {
+    // when client send message, display that message
+    socket.addEventListener("message", (event) => {
+        console.log("Websocket Server: Received message from websocket client: " + event.data)
+    })
 
-        console.log("Websocket Server: Received message from websocket client: " + msg);
-        /*
-        let temp = msg.toString(); //convert the object to string 
-        console.log(temp);
-    
-        // Broadcast that message to all connected clients
-        wsServer.clients.forEach(function (client) {
-            client.send(msg);
-        });
-        */
+    /*  replaced by addEventListener()
+    // when client send message, display that message
+    socket.on('message', function (rawdata) {
+        console.log("Websocket Server: Received message from websocket client: " + rawdata);
     });
+    */
 
     socket.on('close', function (socket) {
         console.log('Websocket client disconnected');
