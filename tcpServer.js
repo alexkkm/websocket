@@ -1,14 +1,12 @@
-const e = require('express');
 const net = require('net');
 const WebSocket = require('ws');
 
-
-
+// create a new web socket 
 const serverAddress = "ws://localhost:3000/";
 const ws = new WebSocket(serverAddress);
 const tcpPort = 4008;
 
-//
+/*
 function receiveMsg(socket, data) {
 
     if (!socket.chunk) {
@@ -40,8 +38,8 @@ function receiveMsg(socket, data) {
 
     } while (reCheck);
 }
-//
-
+*/
+// create a tcp server using net
 const tcpServer = net.createServer((socket) => {
     console.log('a tcp client connected');
 
@@ -56,6 +54,7 @@ const tcpServer = net.createServer((socket) => {
     });
 });
 
+// bind tcp server listening to port 4008
 tcpServer.listen(tcpPort, () => {
     console.log('tcp server is listening on ' + tcpPort);
 
@@ -64,12 +63,14 @@ tcpServer.listen(tcpPort, () => {
     });
 });
 
+// when connected to websocket, send message back to websocket
 ws.onopen = function () {
-    ws.send('Hi this is TCP client.');
+    ws.send('Hi this is client TCP.');
 };
 
-ws.onmessage = function (e) {
-    console.log("ClientSide: TCP Received: '" + e.data + "'");
-    let msg = e.data.toString();
-    console.log(msg)
+// when received message from websocket, display the message
+ws.onmessage = function (message) {
+    console.log("Client TCP: TCP Received: '" + message + "'");
+    let msg = message.data.toString();
+    console.log("message.data from webSocket: " + msg)
 }
