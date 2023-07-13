@@ -78,15 +78,17 @@ wsServer.on('connection', function (socket) {
 
     // Some feedback on the console
     console.log("A websocket client just connected to wsServer");
-    socket.send("message", { data: "Welcome" })
+    // Encode the JSON into sendable string and send it to client
+    socket.send(JSON.stringify({ title: "message", info: "Welcome" }))
 
     // Attach some behavior to the incoming socket
     socket.on('message', function (msg) {
+
         console.log("Websocket Server: Received message from websocket client: " + msg);
         /*
         let temp = msg.toString(); //convert the object to string 
         console.log(temp);
-
+    
         // Broadcast that message to all connected clients
         wsServer.clients.forEach(function (client) {
             client.send(msg);
@@ -99,3 +101,4 @@ wsServer.on('connection', function (socket) {
     })
 
 });
+

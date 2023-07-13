@@ -33,12 +33,17 @@ tcpServer.listen(tcpPort, () => {
 
 // when connected to websocket, send message back to websocket
 ws.onopen = function () {
-    ws.send('Hi, this is client TCP.');
+    ws.send("message", { info: 'Hi, this is client TCP.' });
 };
 
 // when received message from websocket, display the message
-ws.onmessage = function (message) {
-    console.log("Client TCP: TCP Received: '" + message + "'");
-    let msg = message.data.toString();
-    console.log("message.data from webSocket: " + msg)
+ws.onmessage = function (rawdata) {
+    // raw data
+    console.log("Raw Data:'" + rawdata + "'");
+    // parse raw data to JSON
+    var dataObject = JSON.parse(rawdata.data);
+    console.log("Client TCP: TCP Received: '" + dataObject.toString() + "'");
+
+    var info = dataObject.info;
+    console.log("event.info from websocket: " + info)
 }

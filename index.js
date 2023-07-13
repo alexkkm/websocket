@@ -1,18 +1,19 @@
 // make connection to websocket server
 let ws = new WebSocket('ws://localhost:3000/')
-ws.onopen = function () {
-    ws.send("Hi, this is http client from index");
+ws.onopen = () => {
+    ws.send(JSON.stringify({ title: "message", info: "Hi, this is http client from index" }));
 }
 
 // when received message from websocket, display the message
-ws.onmessage = function (message) {
+ws.onmessage = event => {
     // open web concole with F12 to see this message
-    console.log("Client http: Received: '" + message + "'");
-    let msg = message.data.toString();
-    console.log("message.data from websocket: " + msg)
+    console.log("Client http: Received: '" + event + "'");
+    var dataObject = JSON.parse(event.data);
+    var name = dataObject.name;
+    console.log("message.data from websocket: " + name)
 }
 
 /************************************************************************/
 function sendMessage() {
-    ws.send("message title", { data: "hi" })
+    ws.send("message", { data: "hi" })
 }
