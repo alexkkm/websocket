@@ -14,13 +14,22 @@ const tcpServer = require("./tcpServer.js")
 
 //Express setting
 const app = express();
-//app.use(express.static("views"));
-//app.use(express.static(__dirname + '/public'));
+//  app.use() is to indicate the path of files that will be use by the express
+// need to indicate the file path 
+app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(jsonParser);
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.set('view engine', 'html');
+
+// app
+app.on('connect', (socket) => {
+    console.log('a web client connected');
+    socket.on('disconnect', () => {
+        console.log('web client disconnected');
+    });
+});
 
 // routing: perfromed by sending response when client requiring 
 app.get('/', (req, res) => {
@@ -35,17 +44,12 @@ app.get('/main', jsonParser, (req, res) => {
 
 
 
+
 // create http server with port 8080
 const httpPort = 8080;
 var httpServer = http.createServer(app);
 
-// app
-app.on('connect', (socket) => {
-    console.log('a web client connected');
-    socket.on('disconnect', () => {
-        console.log('web client disconnected');
-    });
-});
+
 
 // httpServer, or called web server
 httpServer.listen(httpPort, () => {
@@ -67,13 +71,14 @@ const wsServer = new WebSocket.Server({
 wsServer.on('connection', function (socket) {
 
     // Some feedback on the console
-    console.log("A client just connected to wsServer");
+    console.log("A websocket client just connected to wsServer");
     socket.send("message")
 
     // Attach some behavior to the incoming socket
     socket.on('message', function (msg) {
-        console.log("Server: Received message from client: " + msg);
+        console.log("Server: Received message from web socket client: " + msg);
 
+        /*
         let temp = msg.toString(); //convert the object to string 
         //temp = temp.substring(1, temp.length-1); //and delete the quotes after convertion
         console.log(temp);
@@ -82,12 +87,12 @@ wsServer.on('connection', function (socket) {
         wsServer.clients.forEach(function (client) {
             client.send(msg);
         });
-
+        */
 
     });
 
     socket.on('close', function () {
-        console.log('Client disconnected');
+        console.log('Web socket client disconnected');
     })
 
 });
