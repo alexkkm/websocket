@@ -6,17 +6,18 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 const tcpServer = require("./tcpServer.js")
 
-
+// useful package maybe use later
 var events = require('events');
 const fs = require("fs");
-
-
 // file import
-//const configFile = "./setting/config.json";
-//let config = require(configFile);
+//const configFilePath = "./setting/config.json";
+//let config = require(configFilePath);
 
 /************************************************************************/
+
 // Express setting
+
+// create express app
 const app = express();
 //  app.use() is to indicate the path of files that will be use by the express
 // need to indicate the file path 
@@ -48,6 +49,8 @@ app.get('/main', jsonParser, (req, res) => {
 
 /************************************************************************/
 
+// Http Server Setting
+
 // create http server with port 8080
 const httpPort = 8080;
 var httpServer = http.createServer(app);
@@ -62,6 +65,8 @@ httpServer.listen(httpPort, () => {
 }); //open the httpServer using localhost:8080/
 
 /************************************************************************/
+
+// WebServer Setting
 
 // Creating a new web socket server with PORT 3080
 const wsServer = new WebSocket.Server({
