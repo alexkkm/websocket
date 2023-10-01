@@ -77,13 +77,13 @@ const wsServer = new WebSocket.Server({
 wsServer.on('connection', function (socket) {
 
     // Some feedback on the console
-    console.log("A websocket client just connected to wsServer");
+    console.log("ws: A client just connected to wsServer");
     // Encode the JSON into sendable string and send it to client
     socket.send(JSON.stringify({ title: "message", info: "Welcome" }))
 
     // when client send message, display that message
     socket.addEventListener("message", (event) => {
-        console.log("Websocket Server: Received message from websocket client: " + event.data)
+        console.log("ws: Received message from client: " + event.data)
     })
 
     /*  replaced by addEventListener()
@@ -94,7 +94,7 @@ wsServer.on('connection', function (socket) {
     */
 
     socket.on('close', function (socket) {
-        console.log('Websocket client disconnected');
+        console.log('ws: Websocket client disconnected');
     })
 
 });
