@@ -79,13 +79,30 @@ wsServer.on('connection', function (socket) {
     // Some feedback on the console
     console.log("ws: A client just connected to wsServer");
     // Encode the JSON into sendable string and send it to client
-    socket.send(JSON.stringify({ title: "message", info: "Welcome" }))
+    socket.send(JSON.stringify({ category: "message", info: "Welcome" }))
 
     // when client send message, display that message
     socket.addEventListener("message", (event) => {
-        console.log("ws: Received message from client: " + event.data)
-    })
+        console.log("ws: Received message from client: " + event.data)  // "event.data" is the raw format when the data is recieved
+        var msg = JSON.parse(event.data);    // translate the "event.data" into JSON format, name as "msg"
+        // then can utilise the msg as JSON object
+        console.log("info: " + msg.info)
 
+    })
+    // On every 1 second, do the following:
+    setInterval(() => {
+        var currentTime = new Date();
+        // send the "time" to client
+        socket.send(JSON.stringify({
+            category: "time",
+            info: currentTime.getFullYear() + "/" +
+                currentTime.getMonth() + "/" +
+                currentTime.getDay() + " " +
+                currentTime.getHours() + ":" +
+                currentTime.getMinutes() + ":" +
+                currentTime.getSeconds()
+        }))
+    }, 1000)
     //*  replaced by addEventListener()
     /*
     // when client send message, display that message

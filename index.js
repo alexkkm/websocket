@@ -3,28 +3,38 @@ let ws = new WebSocket('ws://localhost:3000/')
 
 // When connected to websocket, send message back to websocket
 ws.onopen = () => {
-    ws.send(JSON.stringify({ title: "message", info: "Hi, this is index" }));
+    ws.send(JSON.stringify({ category: "system", info: "Hi, this is index" }));
 }
 
-// When received message from websocket, display the message
+// When received message from websocket, do the followings:
 ws.addEventListener("message", (event) => {
-    console.log("index: Received message from Websocket Server: " + event.data);
+    // translate the "event.data" into JSON format, name as "msg"
+    var msg = JSON.parse(event.data);
+    // identify the message "category"
+    if (msg.category == "system") {
+        console.log("index: Received message from Websocket Server: " + msg);
+    }
+    if (msg.category == "time") {
+        // save the time from "event.data" as "dataObject"
+        var dataObject = msg.info;
+        // replcae "timeBlock" content with "dataObject"
+        var timeBlock = document.getElementById("time");
+        timeBlock.innerHTML = dataObject;
+    }
 })
 
 //** Same as ws.addEventListener()**//
 /*
 // when received message from websocket, display the message
-ws.onmessage = event => {
+ws.onmessage = (event) => {
     // open web concole with F12 to see this message
-    console.log("index: Received message from Websocket Server: " + event);
     var dataObject = JSON.parse(event.data);
-    var name = dataObject.name;
-    console.log("message.data from websocket: " + name)
+    console.log("index: Received message from Websocket Server: " + dataObject);
 }
 */
 
 /************************************************************************/
 function sendMessage() {
     console.log("sending message to ws")
-    ws.send(JSON.stringify({ title: "message", data: "default content of message" }))
+    ws.send(JSON.stringify({ category: "message", info: "default content of message" }))
 }

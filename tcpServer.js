@@ -37,7 +37,7 @@ const ws = new WebSocket(serverAddress);
 
 // when connected to websocket, send message back to websocket
 ws.onopen = function () {
-    ws.send(JSON.stringify({ title: "message", info: "Hi, this is TCP" }));
+    ws.send(JSON.stringify({ category: "system", info: "Hi, this is TCP" }));
 };
 
 /*  
@@ -57,5 +57,7 @@ ws.onmessage = function (rawdata) {
 
 // Since this is tcpServer, so we identify this file is a client of websocket, and send back to message via websocket connection to websocket server
 ws.addEventListener("message", (event) => {
-    console.log("TCP: Received message from Websocket Server: " + event.data);
+    if (event.data.category == "system") {
+        console.log("TCP: Received message from Websocket Server: " + event.data);
+    }
 })
