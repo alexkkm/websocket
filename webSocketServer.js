@@ -86,13 +86,15 @@ wsServer.on('connection', function (socket) {
         console.log("ws: Received message from client: " + event.data)
     })
 
-    /*  replaced by addEventListener()
+    //*  replaced by addEventListener()
+    /*
     // when client send message, display that message
     socket.on('message', function (rawdata) {
-        console.log("Websocket Server: Received message from websocket client: " + rawdata);
+        console.log("ws: Received message from websocket client: " + rawdata);
     });
     */
 
+    // when client is disconnect, notify a message in console
     socket.on('close', function (socket) {
         console.log('ws: Websocket client disconnected');
     })
