@@ -1,15 +1,24 @@
-http://localhost:8080/
+# README.md of this project:
 
-Notes:
+## How to run this project?
 1. please installed the node package by:
 ```
 npm i
 ```
-2. some code has been label as comment, since there is a better code or function that can replace it. 
+2. Run the following commands:
+```
+node webSocketServer.js
+```
+3.  Open the browser with localhost port 8080:
+http://localhost:8080/
+
+## Notes:
+
+1. some code has been label as comment, since there is a better code or function that can replace it. 
 eg: ws.onmessage()->ws.addEventListener()
 
 
-Code Explanation:
+## Code Explanation:
 1. The application creates 3 servers seperately when it starts:
 http Server (Express Server), WebSocket Server and TCP Server.
 2. HTTP server serve for responding web page request with sending the index.html file, http server created and serve with Express application and listening on PORT 8080. It will act as a middlewear that send the message from web page to the web socket server or receive web socket server messages and display messages into web page.
