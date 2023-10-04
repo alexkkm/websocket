@@ -39,7 +39,21 @@ ws.onmessage = (event) => {
 /************************************************************************/
 
 // Function for sending "inputField" text to websocket
+/*
 function submitText() {
     let text = document.getElementById("inputField").value;
     ws.send(JSON.stringify({ category: "message", info: text.toString() }));
 }
+*/
+$(document).ready(
+    function () {
+        $("#submitTextButton").click(
+            function () {
+                let text = document.getElementById("inputField").value;
+                ws.send(JSON.stringify({ category: "message", info: text.toString() }));
+            }
+        )
+    }
+);
+
+
