@@ -66,7 +66,7 @@ httpServer.listen(httpPort, () => {
 
 /************************************************************************/
 
-// WebServer Setting
+// WebSocketServer Setting
 
 // Creating a new web socket server with PORT 3080
 const wsServer = new WebSocket.Server({
@@ -77,17 +77,16 @@ const wsServer = new WebSocket.Server({
 wsServer.on('connection', function (socket) {
 
     // Some feedback on the console
-    console.log("ws: A client just connected to wsServer");
+    console.log("ws: A client " + socket.id + " just connected to wsServer");
     // Encode the JSON into sendable string and send it to client
     socket.send(JSON.stringify({ category: "message", info: "Welcome" }))
+    socket.send(JSON.stringify({ category: "identity", info: socket.id }))
 
     // when client send message, display that message
     socket.addEventListener("message", (event) => {
         console.log("ws: Received message from client: " + event.data)  // "event.data" is the raw format when the data is recieved
         var msg = JSON.parse(event.data);    // translate the "event.data" into JSON format, name as "msg"
-        // then can utilise the msg as JSON object
-        console.log("info: " + msg.info)
-
+        handleMessage(msg);
     })
     // On every 1 second, do the following:
     setInterval(() => {
@@ -118,3 +117,11 @@ wsServer.on('connection', function (socket) {
 
 });
 
+function handleMessage(msg) {
+    if (msg.category === "system") {
+
+    }
+    if (msg.category === "") {
+
+    }
+}

@@ -10,10 +10,13 @@ ws.onopen = () => {
 ws.addEventListener("message", (event) => {
     // translate the "event.data" into JSON format, name as "msg"
     var msg = JSON.parse(event.data);
+
     // identify the message "category"
+    // If it is "system" message,
     if (msg.category == "system") {
         console.log("index: Received message from Websocket Server: " + msg);
     }
+    // If it is "time" message,
     if (msg.category == "time") {
         // save the time from "event.data" as "dataObject"
         var dataObject = msg.info;
@@ -35,6 +38,11 @@ ws.onmessage = (event) => {
 
 /************************************************************************/
 function sendMessage() {
-    console.log("sending message to ws")
+    console.log("index: Sending message to ws")
     ws.send(JSON.stringify({ category: "message", info: "default content of message" }))
+}
+
+function newSendMessage() {
+    let text = document.getElementById("inputField").innerText;
+    console.log(text)
 }
