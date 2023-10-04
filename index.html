@@ -3,11 +3,6 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>whatever</title>
-		<script></script>
-		<script
-			type="text/javascript"
-			src="index.js"></script>
-		<!-- label its type, and put it in header only -->
 	</head>
 	<body>
 		<h1>Press F12 to see the console log and connection</h1>
@@ -22,11 +17,12 @@
 				type="text"
 				id="inputField"
 				placeholder="input your message here" />
-			<button
-				id="submitTextButton"
-				onclick="submitText()">
-				Submit
-			</button>
+			<button id="submitTextButton">Submit</button>
 		</div>
 	</body>
+
+	<!-- To prevent the DOM element function is loaded before the element has been rendered, put the <script> tag behind the <head> tag -->
+	<script
+		type="text/javascript"
+		src="index.js"></script>
 </html>

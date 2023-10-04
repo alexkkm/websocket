@@ -37,9 +37,15 @@ ws.onmessage = (event) => {
 */
 
 /************************************************************************/
+// In case the script "index.js" is put before the <body> in "index.html", need to include the "addEventListener()" into "window.onload=function(){}" 
+window.onload = function () {   // In current situation, actually no need to use window.onload(), since the <script> is render after the <body> has been rendered
 
-// Function for sending "inputField" text to websocket
-function submitText() {
-    let text = document.getElementById("inputField").value;
-    ws.send(JSON.stringify({ category: "message", info: text.toString() }));
+    // Function for sending "inputField" text to websocket
+    document.getElementById("submitTextButton").addEventListener("click", function () {
+        let text = document.getElementById("inputField").value;
+        ws.send(JSON.stringify({ category: "message", info: text.toString() }));
+    });
+
 }
+
+
