@@ -24,6 +24,14 @@ const tcpServer = net.createServer((socket) => {
 tcpServer.listen(tcpPort, () => {
     console.log('tcp server is listening on ' + tcpPort);
 
+    tcpServer.on("message", () => {
+        console.log("message")
+    })
+
+    tcpServer.on("data", () => {
+        console.log("data")
+    })
+
     tcpServer.on('close', () => {
         console.log('tcp server closed');
     });
@@ -38,6 +46,22 @@ const ws = new WebSocket(serverAddress);
 // when connected to websocket, send message back to websocket
 ws.onopen = function () {
     ws.send(JSON.stringify({ category: "system", info: "Hi, this is TCP" }));
+
+    ws.addEventListener("message", (event) => {
+        // translate the "event.data" into JSON format, name as "msg"
+        var msg = JSON.parse(event.data);
+
+        // identify the message "category"
+        // If it is "system" message,
+        if (msg.category == "system") {
+            console.log("tcp: Received message from Websocket Server: " + msg.info);
+        }
+        // If it is "time" message,
+        if (msg.category == "time") {
+            // save the time from "event.data" as "dataObject"
+            var dataObject = msg.info;
+        }
+    })
 };
 
 /*  

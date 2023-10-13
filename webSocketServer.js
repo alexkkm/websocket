@@ -79,7 +79,7 @@ wsServer.on('connection', function (socket) {
     // Some feedback on the console
     console.log("ws: A client " + socket.id + " just connected to wsServer");
     // Encode the JSON into sendable string and send it to client
-    socket.send(JSON.stringify({ category: "message", info: "Welcome" }))
+    socket.send(JSON.stringify({ category: "system", info: "Welcome" }))
     socket.send(JSON.stringify({ category: "identity", info: socket.id }))
 
     // when client send message, display that message

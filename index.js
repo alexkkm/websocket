@@ -14,7 +14,7 @@ ws.addEventListener("message", (event) => {
     // identify the message "category"
     // If it is "system" message,
     if (msg.category == "system") {
-        console.log("index: Received message from Websocket Server: " + msg);
+        console.log("index: Received message from Websocket Server: " + msg.info);
     }
     // If it is "time" message,
     if (msg.category == "time") {
